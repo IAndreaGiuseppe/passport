@@ -1,6 +1,53 @@
 <?php
 
+use Laravel\Passport\Features;
+
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Passport Path
+    |--------------------------------------------------------------------------
+    |
+    | This is the base URI path where Passport's views, such as the payment
+    | verification screen, will be available from. You're free to tweak
+    | this path according to your preferences and application design.
+    |
+    */
+
+    'path' => env('PASSPORT_PATH', 'oauth'),
+
+    /*
+     |--------------------------------------------------------------------------
+     | Passport Route Middleware
+     |--------------------------------------------------------------------------
+     |
+     | Here you may specify which middleware Passport will assign to the routes
+     | that it registers with the application. When necessary, you may modify
+     | these middleware; however, this default value is usually sufficient.
+     |
+     */
+
+    'middleware' => ['web'],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Features
+    |--------------------------------------------------------------------------
+    |
+    | Some of Passport's features are optional. You may disable the features
+    | by removing them from this array. You're free to only remove some of
+    | these features or you can even remove all of these if you need to.
+    |
+    */
+
+    'features' => [
+        Features::accessToken(),
+        Features::authorization(),
+        Features::clients(),
+        Features::personalAccessToken(),
+        Features::transientToken(),
+    ],
 
     /*
     |--------------------------------------------------------------------------

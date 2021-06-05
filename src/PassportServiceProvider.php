@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Bridge\PersonalAccessGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
@@ -34,6 +35,8 @@ class PassportServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->registerRoutes();
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'passport');
 
         $this->deleteCookieOnLogout();
@@ -91,6 +94,23 @@ class PassportServiceProvider extends ServiceProvider
         $this->registerJWTParser();
         $this->registerResourceServer();
         $this->registerGuard();
+    }
+
+    /**
+     * Register the package routes.
+     *
+     * @return void
+     */
+    protected function registerRoutes()
+    {
+        if (Passport::$registersRoutes) {
+            Route::group([
+                'prefix' => config('passport.path'),
+                'as' => 'passport.',
+            ], function () {
+                $this->loadRoutesFrom(__DIR__.'/../routes/passport.php');
+            });
+        }
     }
 
     /**
